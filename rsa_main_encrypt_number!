@@ -1,0 +1,63 @@
+import rsa_math
+
+
+print("----------RSA ENCRYPTION MESSAAGING----------",'\n')
+
+
+
+msg = input("Enter a small message to encrypt with secure RSA:")
+
+print("----------------------------------------------------")
+
+keys = rsa_math.generate_keys(16)
+
+module = keys[0][1]
+e_value = keys[0][0]
+d_value = keys[1][0]
+
+
+
+codes = {
+    'a': '1','b': '2','c': '3','d': '4','e': '5','f': '6','g': '7','h': '8','i': '9','j': '10','k': '11','l': '12',
+    'm': '13','n': '14','o': '15','p': '16','q': '17','r': '18','s': '19','t': '20','u': '21','v': '22','w': '23',
+    'x': '24','y': '25','z': '26'
+}
+
+initial_numdigit = '0'
+
+numbercoded_msg = []
+
+for char in msg.lower():
+    if char in codes:
+        numbercoded_msg.append(codes.get(char))
+    if char.isdigit():
+        numbercoded_msg.append(char)
+    else:
+        pass
+
+def convert_num(message_list):
+    result = ''
+    for nums in message_list:
+        result += nums
+    return result
+        
+
+converted_num = int(convert_num(numbercoded_msg))
+
+encrypted_message = rsa_math.encrypt(converted_num,e_value,module)
+
+
+print(f"Your numeric message is: {converted_num}",'\n')
+
+print(f"You encrypted message is:")
+
+print(encrypted_message)
+
+wishDecrypt = input("Do you wish to decrypt the message?(y/n): ")
+
+if wishDecrypt.lower() == 'y':
+    decrypted_message = rsa_math.decrypt(encrypted_message,d_value,module)
+    print(decrypted_message)
+
+
+#by sroncal
